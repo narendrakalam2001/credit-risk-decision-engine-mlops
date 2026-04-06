@@ -1,0 +1,64 @@
+# ============================================================
+# .GITIGNORE — Credit Risk ML System
+# ============================================================
+
+# ── Python ───────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# ── Virtual environments ──────────────────────────────────────
+venv/
+env/
+.env
+.venv/
+
+# ── Jupyter ───────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ── Models (large files) ──────────────────────────────────────
+# Use Git LFS for .joblib if needed, otherwise exclude
+risk_models/*.joblib
+
+# Keep metadata + results (small JSON/CSV — useful for recruiters)
+!risk_models/latest_model.json
+!risk_models/model_card_*.json
+!risk_models/model_experiment_results.csv
+!risk_models/monitor_scores.csv
+!risk_models/feature_drift_report.csv
+
+# ── Data ──────────────────────────────────────────────────────
+# Real dataset — never push (large + proprietary)
+data/Bank_Personal_Loan_Modelling.csv
+
+# Sample files — push to GitHub (recruiters can see data structure)
+# data/sample_credit_data.csv          ← intentionally NOT ignored
+# data/sample_credit_data_balanced.csv ← intentionally NOT ignored
+
+# ── Logs ──────────────────────────────────────────────────────
+logs/
+
+# ── MLflow ────────────────────────────────────────────────────
+mlruns/
+mlartifacts/
+
+# ── Pytest ────────────────────────────────────────────────────
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# ── OS ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── IDE ───────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp

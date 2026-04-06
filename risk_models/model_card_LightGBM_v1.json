@@ -1,0 +1,103 @@
+{
+  "model_version": "v1",
+  "model_name": "LightGBM",
+  "trained_at": "2026-03-30 16:09:40",
+  "project": "Credit Risk Prediction System",
+  "dataset": {
+    "train_fit_size": 3191,
+    "calibration_size": 798,
+    "test_size": 998,
+    "loan_rate_train": 0.0962
+  },
+  "metrics": {
+    "test_f1": 0.9741,
+    "test_precision": 0.9691,
+    "test_recall": 0.9792,
+    "roc_auc": 0.9991,
+    "ks_statistic": 0.9818,
+    "recall_at_5pct": 0.5104,
+    "lift_at_5pct": 5.3062,
+    "brier_score": 0.0074
+  },
+  "thresholds": {
+    "uncalibrated": 0.924,
+    "calibrated": 0.5714,
+    "active": 0.5714
+  },
+  "risk_decisions": {
+    "APPROVE": 839,
+    "DECLINE_MODEL": 97,
+    "REVIEW_INCOME": 57,
+    "REVIEW_MODEL": 5
+  },
+  "cost_evaluation": {
+    "false_negative_count": 2,
+    "false_positive_count": 3,
+    "estimated_fn_loss": 139.2,
+    "review_cost": 150.0,
+    "total_estimated_loss": 289.2
+  },
+  "pipeline_config": {
+    "feature_order": [
+      "family",
+      "education",
+      "age_bin",
+      "digital_usage",
+      "income",
+      "ccavg",
+      "mortgage",
+      "income_per_person",
+      "mortgage_income_ratio",
+      "income_x_education",
+      "family_x_ccavg",
+      "ccavg_x_mortgage",
+      "age",
+      "ccavg_income_ratio",
+      "securities_account",
+      "cd_account",
+      "online",
+      "creditcard",
+      "has_mortgage",
+      "near_retirement",
+      "high_ccavg_flag"
+    ],
+    "categorical_indices": [
+      0,
+      1,
+      2,
+      3,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "selector_k": 10
+  },
+  "feature_importances": {
+    "family_x_ccavg": 944,
+    "age": 939,
+    "income": 907,
+    "income_per_person": 799,
+    "income_x_education": 730,
+    "ccavg": 697,
+    "ccavg_income_ratio": 504,
+    "mortgage": 244,
+    "high_ccavg_flag": 136,
+    "ccavg_x_mortgage": 91
+  },
+  "shap_top_features": {
+    "income": 8.188475412817027,
+    "income_x_education": 3.197454200813717,
+    "ccavg": 1.8615827410973553,
+    "income_per_person": 1.6089485721875527,
+    "family_x_ccavg": 1.5298297531069178,
+    "ccavg_income_ratio": 0.5444939929629402,
+    "high_ccavg_flag": 0.5045815481976154,
+    "age": 0.35774875879619844,
+    "mortgage": 0.1939473235351544,
+    "ccavg_x_mortgage": 0.09859895628085903
+  }
+}
