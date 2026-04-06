@@ -96,6 +96,30 @@ PSI drift monitoring with 🔴🟡🟢 status flags and live prediction log.
 
 ---
 
+## 📊 Model Performance Summary
+
+![Model Summary](docs/reports/training_model_summary.png)
+
+---
+
+### 🔍 Detailed Metrics
+
+![Metrics](docs/reports/model_analysis_metrics.png)
+
+---
+
+## 🆚 Champion vs Challenger
+
+![Challenger](docs/reports/challenger_evaluation.png)
+
+---
+
+## 🧪 Test Coverage
+
+![Tests](docs/reports/test_coverage.png)
+
+---
+
 ### 🌐 API Prediction Response
 
 Example response from real-time FastAPI endpoint.
