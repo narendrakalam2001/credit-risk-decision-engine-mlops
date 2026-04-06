@@ -1,5 +1,7 @@
 # 💳 Credit Risk Prediction ML System
 
+⭐ **If you find this project useful, consider giving it a star!**
+
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-API-green)
 ![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red)
@@ -31,6 +33,14 @@ This project builds a complete **Fintech-grade Credit Risk System** with:
 * 25 pytest unit tests with coverage report
 * Real-time FastAPI + Applicant Simulator
 * Streamlit monitoring dashboard with real-time alerts
+
+---
+
+## 💡 Why This Project Matters
+
+Traditional credit scoring systems lack transparency and adaptability.
+This system combines ML + business rules + monitoring to simulate
+real-world banking decision pipelines.
 
 ---
 
@@ -96,6 +106,17 @@ PSI drift monitoring with 🔴🟡🟢 status flags and live prediction log.
 
 ---
 
+### 🔍 What This Dashboard Helps With
+
+* Monitor risk score distribution shifts over time
+* Track approval vs rejection vs review rates
+* Detect feature distribution drift (PSI)
+* Compare champion vs challenger model versions
+* Trigger real-time alerts on anomalous patterns
+* View recent predictions with rule trigger details
+
+---
+
 ## 📊 Model Performance Summary
 
 ![Model Summary](docs/reports/training_model_summary.png)
@@ -120,22 +141,11 @@ PSI drift monitoring with 🔴🟡🟢 status flags and live prediction log.
 
 ---
 
-### 🌐 API Prediction Response
+## 🌐 API Prediction Response
 
 Example response from real-time FastAPI endpoint.
 
 ![API](docs/screenshots/api_prediction_response.png)
-
----
-
-### 🔍 What This Dashboard Helps With
-
-* Monitor risk score distribution shifts over time
-* Track approval vs rejection vs review rates
-* Detect feature distribution drift (PSI)
-* Compare champion vs challenger model versions
-* Trigger real-time alerts on anomalous patterns
-* View recent predictions with rule trigger details
 
 ---
 
