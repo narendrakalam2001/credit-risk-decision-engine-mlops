@@ -22,16 +22,13 @@ env/
 .ipynb_checkpoints/
 *.ipynb
 
-# ── Models (large files) ──────────────────────────────────────
-# Use Git LFS for .joblib if needed, otherwise exclude
-risk_models/*.joblib
+# ── Models ────────────────────────────────────────────────────
+# .joblib pushed to GitHub so Render can load it at startup
+# If file becomes too large (>100MB) use Git LFS instead
+# risk_models/*.joblib   ← intentionally NOT ignored
 
-# Keep metadata + results (small JSON/CSV — useful for recruiters)
-!risk_models/latest_model.json
-!risk_models/model_card_*.json
-!risk_models/model_experiment_results.csv
-!risk_models/monitor_scores.csv
-!risk_models/feature_drift_report.csv
+# Keep all risk_models files for deployment + recruiters
+!risk_models/
 
 # ── Data ──────────────────────────────────────────────────────
 # Real dataset — never push (large + proprietary)
