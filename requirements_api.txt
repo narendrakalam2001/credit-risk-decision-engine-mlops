@@ -1,15 +1,16 @@
 # ============================================================
 # REQUIREMENTS — API deployment only (Render)
-# No version pins — let pip resolve compatible versions
+# Stripped of training-only deps (shap, mlflow, catboost)
+# to keep build fast and avoid memory issues on free tier
 # ============================================================
 
 fastapi
-uvicorn[standard]
+uvicorn
 
-pandas
-numpy
+pandas==2.1.4
+numpy==1.26.4
 
-scikit-learn
+scikit-learn==1.3.2
 imbalanced-learn
 
 xgboost
