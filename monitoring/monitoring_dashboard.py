@@ -12,17 +12,18 @@ import os
 st.set_page_config(page_title="Credit Risk Dashboard", layout="wide")
 st.title("💳 Credit Risk Monitoring Dashboard")
 
-API_URL = os.getenv(
-    "CREDIT_RISK_API_URL",
-    "https://credit-risk-decision-engine-mlops.onrender.com"
-) + "/predict"
+API_URL = os.getenv("CREDIT_RISK_API_URL", "http://127.0.0.1:8000") + "/predict"
+
+# ── Absolute paths — works both locally and on Streamlit Cloud ──
+# Streamlit Cloud runs from project root, but use __file__ to be safe
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 # ── PSI alert thresholds ──────────────────────────────────────
 PSI_MODERATE = 0.10
 PSI_HIGH     = 0.20
 
 # ── Score drift alert threshold ───────────────────────────────
-SCORE_MEAN_ALERT = 0.35   # if avg risk score > this → alert
+SCORE_MEAN_ALERT = 0.35
 
 
 # ============================================================
@@ -49,7 +50,7 @@ if st.sidebar.button("Predict Risk"):
         "securities_account": 0, "cd_account": 0
     }
     try:
-        response = requests.post(API_URL, json=payload, timeout=10)
+        response = requests.post(API_URL, json=payload, timeout=30)
         if response.status_code == 200:
             result   = response.json()
             decision = result["decision"]
@@ -63,19 +64,21 @@ if st.sidebar.button("Predict Risk"):
             if result.get("rule_triggered"):
                 st.sidebar.warning(f"Rule triggered: {result['rule_triggered']}")
         else:
-            st.sidebar.error("API error")
+            st.sidebar.error(f"API error: {response.status_code}")
+            st.sidebar.code(response.text[:300])
     except Exception as e:
         st.sidebar.error(f"Connection error: {e}")
+        st.sidebar.caption(f"API URL: {API_URL}")
 
 
 # ============================================================
 # PATHS
 # ============================================================
 
-MONITOR_PATH    = "risk_models/monitor_scores.csv"
-LOG_PATH        = "logs/prediction_logs.csv"
-PSI_PATH        = "risk_models/feature_drift_report.csv"
-CHALLENGER_PATH = "risk_models/challenger_log.json"
+MONITOR_PATH    = os.path.join(BASE_DIR, "risk_models", "monitor_scores.csv")
+LOG_PATH        = os.path.join(BASE_DIR, "logs", "prediction_logs.csv")
+PSI_PATH        = os.path.join(BASE_DIR, "risk_models", "feature_drift_report.csv")
+CHALLENGER_PATH = os.path.join(BASE_DIR, "risk_models", "challenger_log.json")
 
 
 # ============================================================
