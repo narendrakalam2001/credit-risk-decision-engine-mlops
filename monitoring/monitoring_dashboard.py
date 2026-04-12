@@ -12,7 +12,10 @@ import os
 st.set_page_config(page_title="Credit Risk Dashboard", layout="wide")
 st.title("💳 Credit Risk Monitoring Dashboard")
 
-API_URL = os.getenv("CREDIT_RISK_API_URL", "http://127.0.0.1:8000") + "/predict"
+API_URL = os.getenv(
+    "CREDIT_RISK_API_URL",
+    "https://credit-risk-decision-engine-mlops.onrender.com"
+) + "/predic
 
 # ── Absolute paths — works both locally and on Streamlit Cloud ──
 # Streamlit Cloud runs from project root, but use __file__ to be safe
