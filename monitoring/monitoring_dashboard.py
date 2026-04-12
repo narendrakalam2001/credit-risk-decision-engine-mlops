@@ -15,7 +15,7 @@ st.title("💳 Credit Risk Monitoring Dashboard")
 API_URL = os.getenv(
     "CREDIT_RISK_API_URL",
     "https://credit-risk-decision-engine-mlops.onrender.com"
-) + "/predic
+) + "/predict"
 
 # ── Absolute paths — works both locally and on Streamlit Cloud ──
 # Streamlit Cloud runs from project root, but use __file__ to be safe
