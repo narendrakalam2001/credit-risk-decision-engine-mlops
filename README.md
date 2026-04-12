@@ -55,10 +55,10 @@ real-world banking decision pipelines.
 👉 https://YOUR-RENDER-URL.onrender.com
 
 📊 **Monitoring Dashboard (Live)**
-👉 https://YOUR-STREAMLIT-URL.streamlit.app
+👉 [https://YOUR-RENDER-LINK](https://credit-risk-decision-engine-mlops.onrender.com)
 
 📄 **API Docs:**
-👉 https://YOUR-RENDER-URL.onrender.com/docs
+👉 [https://YOUR-RENDER-LINK](https://credit-risk-decision-engine-mlops.onrender.com/docs)
 
 ---
 

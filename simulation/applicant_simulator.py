@@ -9,7 +9,7 @@ import os
 
 # ── API URL — local dev vs deployed ──────────────────────────
 # Set ENV variable for production: CREDIT_RISK_API_URL=https://your-render-url.onrender.com
-API_URL = os.getenv("CREDIT_RISK_API_URL", "http://127.0.0.1:8000") + "/predict"
+API_URL = os.getenv("CREDIT_RISK_API_URL", "https://credit-risk-decision-engine-mlops.onrender.com") + "/predict"
 
 
 # ============================================================

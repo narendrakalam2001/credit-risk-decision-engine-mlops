@@ -12,7 +12,10 @@ import os
 st.set_page_config(page_title="Credit Risk Dashboard", layout="wide")
 st.title("💳 Credit Risk Monitoring Dashboard")
 
-API_URL = os.getenv("CREDIT_RISK_API_URL", "http://127.0.0.1:8000") + "/predict"
+API_URL = os.getenv(
+    "CREDIT_RISK_API_URL",
+    "https://credit-risk-decision-engine-mlops.onrender.com"
+) + "/predict"
 
 # ── PSI alert thresholds ──────────────────────────────────────
 PSI_MODERATE = 0.10
