@@ -250,7 +250,10 @@ def run_training():
             psi_scores[col] = psi(X_train_fit[col].values, X_test[col].values)
 
     psi_df = pd.Series(psi_scores).sort_values(ascending=False)
-    psi_df.to_csv(os.path.join(MODEL_DIR, "feature_drift_report.csv"))
+    # Save as proper DataFrame with column names dashboard can read
+    psi_df.reset_index().rename(
+        columns={"index": "feature", 0: "drift_score"}
+    ).to_csv(os.path.join(MODEL_DIR, "feature_drift_report.csv"), index=False)
 
     print("\nTOP PSI (train vs test)")
     print(psi_df.head(10))
