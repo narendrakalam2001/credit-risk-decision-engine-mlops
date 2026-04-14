@@ -42,15 +42,15 @@ CHALLENGER_PATH = os.path.join(BASE_DIR, "risk_models", "challenger_log.json")
 
 st.sidebar.header("🔮 Predict Applicant Risk")
 
-age        = st.sidebar.number_input("Age",          value=35,   min_value=18, max_value=80)
-income     = st.sidebar.number_input("Income (K)",   value=60.0, min_value=0.0)
-family     = st.sidebar.number_input("Family Size",  value=2,    min_value=1,  max_value=10, step=1)
-ccavg      = st.sidebar.number_input("CC Avg (K)",   value=2.0,  min_value=0.0)
+age        = st.sidebar.number_input("Age",          value=45,    min_value=18, max_value=80)
+income     = st.sidebar.number_input("Income (K)",   value=120.0, min_value=0.0)
+family     = st.sidebar.number_input("Family Size",  value=3,     min_value=1,  max_value=10, step=1)
+ccavg      = st.sidebar.number_input("CC Avg (K)",   value=5.0,   min_value=0.0)
 education  = st.sidebar.selectbox(
     "Education", [1, 2, 3],
     format_func=lambda x: {1: "Undergrad", 2: "Graduate", 3: "Advanced"}[x]
 )
-mortgage   = st.sidebar.number_input("Mortgage (K)", value=0.0,  min_value=0.0)
+mortgage   = st.sidebar.number_input("Mortgage (K)", value=100.0, min_value=0.0)
 online     = st.sidebar.selectbox("Online Banking",  [0, 1])
 creditcard = st.sidebar.selectbox("Has Credit Card", [0, 1])
 
