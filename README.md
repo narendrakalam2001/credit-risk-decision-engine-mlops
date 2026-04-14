@@ -52,10 +52,10 @@ real-world banking decision pipelines.
 ## 🌐 Live Demo
 
 🚀 **Credit Risk API (Live)**
-👉 https://YOUR-RENDER-URL.onrender.com
+👉 [https://YOUR-RENDER-LINK](https://credit-risk-decision-engine-mlops.onrender.com)
 
 📊 **Monitoring Dashboard (Live)**
-👉 [https://YOUR-RENDER-LINK](https://credit-risk-decision-engine-mlops.onrender.com)
+👉 [https://YOUR-STREAMLIT-LINK](https://credit-risk-decision-engine-mlops-7esvkkjxln6qlrb7t8achz.streamlit.app/)
 
 📄 **API Docs:**
 👉 [https://YOUR-RENDER-LINK](https://credit-risk-decision-engine-mlops.onrender.com/docs)
