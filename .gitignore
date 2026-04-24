@@ -39,7 +39,9 @@ data/Bank_Personal_Loan_Modelling.csv
 # data/sample_credit_data_balanced.csv ← intentionally NOT ignored
 
 # ── Logs ──────────────────────────────────────────────────────
-logs/
+logs/*
+!logs/prediction_logs.csv
+*.log
 
 # ── MLflow ────────────────────────────────────────────────────
 mlruns/
