@@ -12,11 +12,13 @@ import os
 st.set_page_config(page_title="Credit Risk Dashboard", layout="wide")
 st.title("💳 Credit Risk Monitoring Dashboard")
 
-# ── API URL ───────────────────────────────────────────────────
-API_URL = os.getenv(
+# ── API base URL ──────────────────────────────────────────────
+API_BASE = os.getenv(
     "CREDIT_RISK_API_URL",
     "https://credit-risk-decision-engine-mlops.onrender.com"
-) + "/predict"
+)
+API_PREDICT_URL            = API_BASE + "/predict"
+API_RECENT_PREDICTIONS_URL = API_BASE + "/recent-predictions"
 
 # ── PSI thresholds ────────────────────────────────────────────
 PSI_MODERATE     = 0.10
@@ -64,7 +66,7 @@ if st.sidebar.button("Predict Risk"):
     with st.sidebar:
         with st.spinner("Calling API... First request may take 30-60s (Render cold start)"):
             try:
-                response = requests.post(API_URL, json=payload, timeout=90)
+                response = requests.post(API_PREDICT_URL, json=payload, timeout=90)
                 if response.status_code == 200:
                     result   = response.json()
                     decision = result["decision"]
@@ -248,11 +250,40 @@ else:
 st.markdown("---")
 st.subheader("📋 Recent Predictions")
 
-if os.path.exists(LOG_PATH):
-    log_df = pd.read_csv(LOG_PATH)
-    st.dataframe(log_df.tail(20))
-else:
-    st.info(
-        "Prediction logs are written by the Render API — not available on Streamlit Cloud. "
-        "Run locally to see logs."
-    )
+# ── Step 1: Try fetching from Render API (works on Streamlit Cloud) ──
+_api_logs_loaded = False
+
+try:
+    resp = requests.get(API_RECENT_PREDICTIONS_URL, timeout=15)
+    if resp.status_code == 200:
+        data = resp.json().get("predictions", [])
+        if data:
+            log_df = pd.DataFrame(data)
+            st.success(f"✅ Live from API — showing last {len(log_df)} predictions")
+            st.dataframe(log_df, use_container_width=True)
+            _api_logs_loaded = True
+        else:
+            st.info(
+                "📭 No predictions yet in current API session.\n\n"
+                "Make a prediction using the sidebar form → it will appear here instantly!"
+            )
+            _api_logs_loaded = True  # API responded fine, just empty
+except requests.exceptions.ConnectionError:
+    pass  # API offline — fall through to local file
+except requests.exceptions.Timeout:
+    st.warning("⏳ API timeout while fetching logs. Render may be waking up (cold start ~30-60s).")
+    _api_logs_loaded = True
+except Exception:
+    pass  # Any other error — fall through to local file
+
+# ── Step 2: Fallback — try local CSV (works when running locally) ──
+if not _api_logs_loaded:
+    if os.path.exists(LOG_PATH):
+        log_df = pd.read_csv(LOG_PATH)
+        st.info("📂 Showing logs from local CSV file")
+        st.dataframe(log_df.tail(20), use_container_width=True)
+    else:
+        st.info(
+            "📭 No predictions found.\n\n"
+            "Make a prediction using the sidebar → logs will appear here!"
+        )

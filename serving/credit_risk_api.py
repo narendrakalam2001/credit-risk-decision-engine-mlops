@@ -9,6 +9,7 @@ import logging
 import time
 import os
 import json
+from collections import deque
 
 from src.model_loader         import load_latest_model
 from services.prediction_service import predict_applicant
@@ -17,6 +18,10 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Credit Risk Prediction API")
+
+# ── In-memory prediction log (last 50 predictions) ───────────
+# deque with maxlen automatically drops oldest when full
+_prediction_log: deque = deque(maxlen=50)
 
 # ── Load model on startup ─────────────────────────────────────
 try:
@@ -70,6 +75,18 @@ def model_info():
     return {"error": "Model registry not found"}
 
 
+# ── Recent predictions endpoint ───────────────────────────────
+
+@app.get("/recent-predictions")
+def recent_predictions():
+    """
+    Returns last 50 predictions stored in-memory.
+    Streamlit dashboard fetches from here — no filesystem dependency.
+    Note: resets on Render cold start (free tier limitation).
+    """
+    return {"predictions": list(_prediction_log)}
+
+
 # ── Prediction endpoint ───────────────────────────────────────
 
 @app.post("/predict")
@@ -80,25 +97,33 @@ def predict(applicant: ApplicantInput):
 
     result     = predict_applicant(model, input_data, threshold)
 
-    # ── Log prediction ────────────────────────────────────────
+    # ── Build log record ──────────────────────────────────────
     log_record = {
-        "timestamp":        time.time(),
+        "timestamp":        time.strftime("%Y-%m-%d %H:%M:%S"),
         "age":              input_data["age"],
         "income":           input_data["income"],
+        "family":           input_data["family"],
+        "mortgage":         input_data["mortgage"],
         "risk_probability": result["risk_probability"],
         "risk_band":        result["risk_band"],
         "decision":         result["decision"],
         "rule_triggered":   result.get("rule_triggered"),
     }
 
-    log_path = "logs/prediction_logs.csv"
-    os.makedirs("logs", exist_ok=True)
+    # ── Store in-memory (works on Streamlit Cloud + Render) ───
+    _prediction_log.appendleft(log_record)
 
-    log_df = pd.DataFrame([log_record])
-    if os.path.exists(log_path):
-        log_df.to_csv(log_path, mode="a", header=False, index=False)
-    else:
-        log_df.to_csv(log_path, index=False)
+    # ── Also write to CSV locally (works when running locally) ─
+    log_path = "logs/prediction_logs.csv"
+    try:
+        os.makedirs("logs", exist_ok=True)
+        log_df = pd.DataFrame([log_record])
+        if os.path.exists(log_path):
+            log_df.to_csv(log_path, mode="a", header=False, index=False)
+        else:
+            log_df.to_csv(log_path, index=False)
+    except Exception:
+        pass  # Streamlit Cloud read-only filesystem — silently skip
 
     result["latency_seconds"] = round(time.time() - start, 4)
 
