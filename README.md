@@ -8,6 +8,7 @@
 ![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Production-orange)
 ![Tests](https://img.shields.io/badge/Tests-25%20passing-brightgreen)
 ![MLflow](https://img.shields.io/badge/MLflow-Tracked-blue)
+![CI](https://github.com/narendrakalam2001/credit-risk-decision-engine-mlops/actions/workflows/ci.yml/badge.svg)
 
 Production-grade end-to-end machine learning system for **personal loan risk assessment** with
 a **3-tier decision engine (APPROVE / REVIEW / DECLINE)**, probability calibration, SHAP explainability,
@@ -52,13 +53,13 @@ real-world banking decision pipelines.
 ## 🌐 Live Demo
 
 🚀 **Credit Risk API (Live)**
-👉 [https://YOUR-RENDER-LINK](https://credit-risk-decision-engine-mlops.onrender.com)
+👉 [https://credit-risk-decision-engine-mlops.onrender.com](https://credit-risk-decision-engine-mlops.onrender.com)
 
 📊 **Monitoring Dashboard (Live)**
 👉 [https://YOUR-STREAMLIT-LINK](https://credit-risk-decision-engine-mlops-7esvkkjxln6qlrb7t8achz.streamlit.app/)
 
 📄 **API Docs:**
-👉 [https://YOUR-RENDER-LINK](https://credit-risk-decision-engine-mlops.onrender.com/docs)
+👉 [https://credit-risk-decision-engine-mlops.onrender.com/docs](https://credit-risk-decision-engine-mlops.onrender.com/docs)
 
 ---
 
@@ -270,6 +271,26 @@ Supports 3 scenarios: `random`, `risky`, `safe`
 
 ---
 
+## 🐳 Docker
+
+> Run the full system locally using Docker — no manual environment setup needed.
+
+```bash
+# API only
+docker build -t credit-risk-api .
+docker run -p 8000:8000 -v ./risk_models:/app/risk_models credit-risk-api
+```
+
+```bash
+# API + Dashboard together
+docker compose up --build
+```
+
+API will be available at `http://localhost:8000`
+Dashboard will be available at `http://localhost:8501`
+
+---
+
 ## ⚙ How to Run
 
 ### 1. Train Model
@@ -356,6 +377,13 @@ credit-risk-ml-system/
 │   ├── screenshots/
 │   └── gifs/
 │
+├── Dockerfile                 ← API Docker image
+├── Dockerfile.dashboard       ← Dashboard Docker image
+├── docker-compose.yml         ← Local dev (API + Dashboard)
+├── .dockerignore
+├── .github/
+│   └── workflows/
+│       └── ci.yml             ← GitHub Actions CI (pytest on push)
 ├── requirements.txt
 ├── runtime.txt
 ├── .gitignore
@@ -383,7 +411,8 @@ Tests cover: `Clipper`, `build_preprocessors`, `detect_feature_types`,
 ## 🛠 Tech Stack
 
 Python · Scikit-Learn · XGBoost · LightGBM · CatBoost · imbalanced-learn ·
-FastAPI · Streamlit · SHAP · MLflow · Pytest · Pandas · NumPy · Seaborn · Render · Streamlit Cloud
+FastAPI · Streamlit · SHAP · MLflow · Pytest · Pandas · NumPy · Seaborn ·
+Docker · GitHub Actions CI/CD · Render · Streamlit Cloud
 
 ---
 
