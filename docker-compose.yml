@@ -1,0 +1,57 @@
+# ============================================================
+# DOCKER COMPOSE — Credit Risk ML System
+# ============================================================
+# Local development: runs API + Dashboard together
+#
+# Usage:
+#   docker compose up --build          ← start everything
+#   docker compose up api              ← API only
+#   docker compose up dashboard        ← Dashboard only
+#   docker compose down                ← stop everything
+# ============================================================
+
+version: "3.9"
+
+services:
+
+  # ── FastAPI Prediction API ──────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    container_name: credit_risk_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./risk_models:/app/risk_models   # persist model artifacts
+      - ./logs:/app/logs                 # persist prediction logs
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import requests; requests.get('http://localhost:8000/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  # ── Streamlit Monitoring Dashboard ─────────────────────────
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    container_name: credit_risk_dashboard
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./risk_models:/app/risk_models
+      - ./logs:/app/logs
+    environment:
+      - CREDIT_RISK_API_URL=http://api:8000   # internal Docker network
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
