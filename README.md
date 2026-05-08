@@ -6,7 +6,7 @@
 ![FastAPI](https://img.shields.io/badge/FastAPI-API-green)
 ![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red)
 ![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Production-orange)
-![Tests](https://img.shields.io/badge/Tests-25%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/Tests-41%20passing-brightgreen)
 ![MLflow](https://img.shields.io/badge/MLflow-Tracked-blue)
 ![CI](https://github.com/narendrakalam2001/credit-risk-decision-engine-mlops/actions/workflows/ci.yml/badge.svg)
 
