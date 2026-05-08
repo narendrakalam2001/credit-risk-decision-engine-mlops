@@ -127,7 +127,7 @@ if not alerts_found:
 
 
 # ============================================================
-# SECTION 2 — CHALLENGER MODEL STATUS
+# SECTION 2 — CHAMPION vs CHALLENGER HISTORY
 # ============================================================
 
 st.markdown("---")
@@ -140,6 +140,7 @@ if os.path.exists(CHALLENGER_PATH):
         latest         = challenger_log[-1]
         decision_color = "green" if latest["decision"] == "PROMOTED" else "red"
         icon           = "✅" if latest["decision"] == "PROMOTED" else "❌"
+
         col1, col2, col3 = st.columns(3)
         with col1:
             st.metric("Latest Challenger", latest.get("challenger_name", "—"))
@@ -147,10 +148,20 @@ if os.path.exists(CHALLENGER_PATH):
             st.metric("Challenger F1",     latest.get("challenger_f1",  "—"))
         with col3:
             st.metric("Champion F1",       latest.get("champion_f1",    "—") or "First Run")
+
         st.markdown(
             f"<h4 style='color:{decision_color}'>{icon} Decision: {latest['decision']} — {latest.get('reason', '')}</h4>",
             unsafe_allow_html=True
         )
+
+        # ── 3-Gate Visual (UPGRADE) ───────────────────────────
+        if latest.get("gates"):
+            g = latest["gates"]
+            gcol1, gcol2, gcol3 = st.columns(3)
+            gcol1.metric("F1 Gate",      "✅ Pass" if g.get("f1_improvement_passed") else "❌ Fail")
+            gcol2.metric("ROC-AUC Gate", "✅ Pass" if g.get("roc_auc_passed")        else "❌ Fail")
+            gcol3.metric("Gap Gate",     "✅ Pass" if g.get("gap_passed")            else "❌ Fail")
+
         if len(challenger_log) > 1:
             with st.expander("View full challenger history"):
                 history_df   = pd.DataFrame(challenger_log)
@@ -228,6 +239,23 @@ if os.path.exists(PSI_PATH):
             return "🟢 OK"
         df_psi["status"] = df_psi["drift_score"].apply(_psi_flag)
         st.dataframe(df_psi.head(10), use_container_width=True)
+
+        # ── PSI Bar Chart (UPGRADE) ───────────────────────────
+        fig, ax = plt.subplots(figsize=(12, 4))
+        colors  = [
+            "#E74C3C" if v >= PSI_HIGH else "#F39C12" if v >= PSI_MODERATE else "#2ECC71"
+            for v in df_psi["drift_score"].head(10)
+        ]
+        ax.barh(df_psi["feature"].head(10)[::-1],
+                df_psi["drift_score"].head(10)[::-1],
+                color=colors[::-1])
+        ax.axvline(PSI_MODERATE, color="orange", linestyle="--", label=f"Moderate ({PSI_MODERATE})")
+        ax.axvline(PSI_HIGH,     color="red",    linestyle="--", label=f"Critical ({PSI_HIGH})")
+        ax.set_title("Feature PSI Drift Scores (Top 10)")
+        ax.set_xlabel("PSI Score")
+        ax.legend(fontsize=8)
+        st.pyplot(fig)
+        plt.close(fig)
     else:
         st.warning("PSI file found but 'drift_score' column missing.")
 else:

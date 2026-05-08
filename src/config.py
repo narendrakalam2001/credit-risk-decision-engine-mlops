@@ -19,9 +19,9 @@ SELECT_K = 10
 CLIP_FOLD = 1.5
 
 # ── Feature engineering thresholds ───────────────────────────
-ORDINAL_UNIQUE_THRESHOLD = 10    # <= this many uniques → ordinal
+ORDINAL_UNIQUE_THRESHOLD = 10
 
-# ── Risk bands (probability → tier) ─────────────────────────
+# ── Risk bands (probability → tier) ──────────────────────────
 RISK_BANDS = {
     "LOW":    (0.00, 0.30),
     "MEDIUM": (0.30, 0.60),
@@ -29,9 +29,21 @@ RISK_BANDS = {
 }
 
 # ── Business rule thresholds ─────────────────────────────────
-MAX_INCOME_RATIO_RULE  = 10.0   # mortgage/income > 10 → HIGH override
-MIN_INCOME_RULE        = 20     # income (000s) < 20 → flag
-FAMILY_SIZE_RULE       = 5      # family >= 5 → flag
+MAX_INCOME_RATIO_RULE  = 10.0
+MIN_INCOME_RULE        = 20
+FAMILY_SIZE_RULE       = 5
+
+# ── PSI drift thresholds (NEW) ───────────────────────────────
+PSI_MODERATE         = 0.10    # PSI >= 0.10 → moderate drift, monitor
+PSI_HIGH             = 0.20    # PSI >= 0.20 → critical drift, retrain
+
+# ── Score monitoring alert ───────────────────────────────────
+SCORE_MEAN_ALERT     = 0.35
+
+# ── Challenger promotion gates (NEW) ─────────────────────────
+MIN_F1_IMPROVEMENT      = 0.005
+MIN_ROCAUC_THRESHOLD    = 0.95
+MAX_GENERALIZATION_GAP  = 0.10
 
 # ── Paths ────────────────────────────────────────────────────
 MODEL_DIR   = "risk_models"
