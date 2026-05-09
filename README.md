@@ -99,13 +99,24 @@ LOW / MEDIUM / HIGH segmentation with score statistics table.
 
 ---
 
-### 📉 Feature Drift Report (PSI) and Recent Predictions
+### 📉 Feature Drift Report (PSI) 
 
-PSI drift monitoring with 🔴🟡🟢 status flags and live prediction log.
+PSI drift monitoring with 🔴🟡🟢 status flags.
 
-![Drift](docs/screenshots/drift_and_predictions.png)
+![Drift Report](docs/screenshots/feature_drift.png)
+
+![Drift Score](docs/screenshots/feature_psi_drift.png)
 
 ---
+
+### 📋 Recent Predictions
+
+Displays live prediction log.
+
+![Transactions](docs/screenshots/predictions.png)
+
+---
+
 
 ### 🔍 What This Dashboard Helps With
 

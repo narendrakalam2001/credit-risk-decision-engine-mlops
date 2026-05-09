@@ -1,164 +1,319 @@
-<svg width="100%" viewBox="0 0 680 1194.69" xmlns="http://www.w3.org/2000/svg">
+<svg width="1100" viewBox="0 0 1100 920" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+
+  <!-- ═══════════════════════════════════════════════════════
+       TITLE
+  ════════════════════════════════════════════════════════ -->
+  <text x="550" y="28" text-anchor="middle" font-size="16" font-weight="600" fill="#1a1a2e">Credit Risk Prediction — System Architecture</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LAYER 1 — DATA LAYER  (blue)
+  ════════════════════════════════════════════════════════ -->
+  <rect x="10" y="42" width="1080" height="108" rx="8" fill="#0d1b4b" opacity="0.93"/>
+  <text x="18" y="58" font-size="10" font-weight="700" fill="#7eb3f7" letter-spacing="1.5">DATA LAYER</text>
+
+  <!-- side label -->
+  <text x="16" y="100" font-size="9" font-weight="600" fill="#4a90d9" transform="rotate(-90,16,100)" text-anchor="middle">DATA</text>
+
+  <!-- boxes -->
+  <!-- Dataset -->
+  <rect x="30" y="64" width="160" height="74" rx="6" fill="#1a3a7a" stroke="#4a7fd4" stroke-width="0.8"/>
+  <text x="110" y="88" text-anchor="middle" font-size="12" font-weight="600" fill="#e8f0fe">Bank Personal Loan</text>
+  <text x="110" y="104" text-anchor="middle" font-size="10" fill="#93b8f7">5,000 applicants</text>
+  <text x="110" y="118" text-anchor="middle" font-size="10" fill="#93b8f7">9.6% loan rate</text>
+
+  <!-- Data Validation -->
+  <rect x="210" y="64" width="160" height="74" rx="6" fill="#1a3a7a" stroke="#4a7fd4" stroke-width="0.8"/>
+  <text x="290" y="88" text-anchor="middle" font-size="12" font-weight="600" fill="#e8f0fe">Data Validation</text>
+  <text x="290" y="104" text-anchor="middle" font-size="10" fill="#93b8f7">validate_input_data()</text>
+  <text x="290" y="118" text-anchor="middle" font-size="10" fill="#93b8f7">schema · nulls · dupes</text>
+
+  <!-- Feature Engineering -->
+  <rect x="390" y="64" width="185" height="74" rx="6" fill="#1a3a7a" stroke="#4a7fd4" stroke-width="0.8"/>
+  <text x="482" y="88" text-anchor="middle" font-size="12" font-weight="600" fill="#e8f0fe">Feature Engineering</text>
+  <text x="482" y="104" text-anchor="middle" font-size="10" fill="#93b8f7">12 features · ratios</text>
+  <text x="482" y="118" text-anchor="middle" font-size="10" fill="#93b8f7">income_x_edu · family_x_ccavg</text>
+
+  <!-- Leakage Check -->
+  <rect x="595" y="64" width="160" height="74" rx="6" fill="#1a3a7a" stroke="#4a7fd4" stroke-width="0.8"/>
+  <text x="675" y="88" text-anchor="middle" font-size="12" font-weight="600" fill="#e8f0fe">Leakage Check</text>
+  <text x="675" y="104" text-anchor="middle" font-size="10" fill="#93b8f7">detect_leakage()</text>
+  <text x="675" y="118" text-anchor="middle" font-size="10" fill="#93b8f7">corr + exact match</text>
+
+  <!-- Train/Test Split -->
+  <rect x="775" y="64" width="160" height="74" rx="6" fill="#1a3a7a" stroke="#4a7fd4" stroke-width="0.8"/>
+  <text x="855" y="88" text-anchor="middle" font-size="12" font-weight="600" fill="#e8f0fe">Train / Test Split</text>
+  <text x="855" y="104" text-anchor="middle" font-size="10" fill="#93b8f7">stratify=y · 80/20</text>
+  <text x="855" y="118" text-anchor="middle" font-size="10" fill="#93b8f7">3191 train · 998 test</text>
+
+  <!-- arrows row 1 -->
+  <line x1="190" y1="101" x2="208" y2="101" stroke="#4a7fd4" stroke-width="1.2" marker-end="url(#arr)"/>
+  <line x1="370" y1="101" x2="388" y2="101" stroke="#4a7fd4" stroke-width="1.2" marker-end="url(#arr)"/>
+  <line x1="575" y1="101" x2="593" y2="101" stroke="#4a7fd4" stroke-width="1.2" marker-end="url(#arr)"/>
+  <line x1="755" y1="101" x2="773" y2="101" stroke="#4a7fd4" stroke-width="1.2" marker-end="url(#arr)"/>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LAYER 2 — TRAINING PIPELINE  (purple)
+  ════════════════════════════════════════════════════════ -->
+  <rect x="10" y="168" width="1080" height="196" rx="8" fill="#1e0a3c" opacity="0.95"/>
+  <text x="18" y="184" font-size="10" font-weight="700" fill="#c49ef7" letter-spacing="1.5">TRAINING PIPELINE</text>
+  <text x="16" y="270" font-size="9" font-weight="600" fill="#9b6de0" transform="rotate(-90,16,270)" text-anchor="middle">TRAINING</text>
+
+  <!-- Row 1 of training boxes -->
+  <!-- Dual Preprocessor -->
+  <rect x="28" y="190" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="107" y="211" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">Dual Preprocessor</text>
+  <text x="107" y="226" text-anchor="middle" font-size="10" fill="#c4b5fd">Clipper+Power+Scaler</text>
+  <text x="107" y="240" text-anchor="middle" font-size="9" fill="#a78bfa">UPGRADED</text>
+
+  <!-- SMOTENC -->
+  <rect x="200" y="190" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="279" y="211" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">SMOTENC Sampling</text>
+  <text x="279" y="226" text-anchor="middle" font-size="10" fill="#c4b5fd">mixed feature types</text>
+  <text x="279" y="240" text-anchor="middle" font-size="10" fill="#c4b5fd">imbalance handling</text>
+
+  <!-- 13 Models -->
+  <rect x="372" y="190" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="451" y="211" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">13 Models Tuned</text>
+  <text x="451" y="226" text-anchor="middle" font-size="10" fill="#c4b5fd">RandomizedSearchCV</text>
+  <text x="451" y="240" text-anchor="middle" font-size="10" fill="#c4b5fd">F1 scoring</text>
+
+  <!-- SelectKBest -->
+  <rect x="544" y="190" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="623" y="211" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">SelectKBest</text>
+  <text x="623" y="226" text-anchor="middle" font-size="10" fill="#c4b5fd">mutual_info_classif</text>
+  <text x="623" y="240" text-anchor="middle" font-size="10" fill="#c4b5fd">k=10 features</text>
+
+  <!-- Calibration -->
+  <rect x="716" y="190" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="795" y="211" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">Prob Calibration</text>
+  <text x="795" y="226" text-anchor="middle" font-size="10" fill="#c4b5fd">isotonic regression</text>
+  <text x="795" y="240" text-anchor="middle" font-size="10" fill="#c4b5fd">thr: 0.924 → 0.5714</text>
+
+  <!-- arrows row 2 -->
+  <line x1="186" y1="224" x2="198" y2="224" stroke="#8b5cf6" stroke-width="1.2" marker-end="url(#arr2)"/>
+  <line x1="358" y1="224" x2="370" y2="224" stroke="#8b5cf6" stroke-width="1.2" marker-end="url(#arr2)"/>
+  <line x1="530" y1="224" x2="542" y2="224" stroke="#8b5cf6" stroke-width="1.2" marker-end="url(#arr2)"/>
+  <line x1="702" y1="224" x2="714" y2="224" stroke="#8b5cf6" stroke-width="1.2" marker-end="url(#arr2)"/>
+
+  <!-- Row 2 of training boxes -->
+  <!-- Threshold Tuning -->
+  <rect x="28" y="278" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="107" y="299" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">Threshold Tuning</text>
+  <text x="107" y="314" text-anchor="middle" font-size="10" fill="#c4b5fd">tune_threshold()</text>
+  <text x="107" y="328" text-anchor="middle" font-size="10" fill="#c4b5fd">max F1</text>
+
+  <!-- Cost Evaluation -->
+  <rect x="200" y="278" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="279" y="299" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">Cost Evaluation</text>
+  <text x="279" y="314" text-anchor="middle" font-size="10" fill="#c4b5fd">ECL · FN+FP loss</text>
+  <text x="279" y="328" text-anchor="middle" font-size="10" fill="#c4b5fd">$289.2 total loss</text>
+
+  <!-- SHAP + Feature Importance -->
+  <rect x="372" y="278" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="451" y="299" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">SHAP + Feature Imp</text>
+  <text x="451" y="314" text-anchor="middle" font-size="10" fill="#c4b5fd">TreeExplainer</text>
+  <text x="451" y="328" text-anchor="middle" font-size="10" fill="#c4b5fd">21 features ranked</text>
+
+  <!-- PSI Drift -->
+  <rect x="544" y="278" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="623" y="299" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">PSI Drift Report</text>
+  <text x="623" y="314" text-anchor="middle" font-size="10" fill="#c4b5fd">edge-based PSI</text>
+  <text x="623" y="328" text-anchor="middle" font-size="9" fill="#a78bfa">FIXED (not rank-based)</text>
+
+  <!-- MLflow + Model Card -->
+  <rect x="716" y="278" width="158" height="68" rx="6" fill="#2d1060" stroke="#8b5cf6" stroke-width="0.8"/>
+  <text x="795" y="299" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">MLflow + Model Card</text>
+  <text x="795" y="314" text-anchor="middle" font-size="10" fill="#c4b5fd">experiment tracking</text>
+  <text x="795" y="328" text-anchor="middle" font-size="9" fill="#a78bfa">JSON · Google standard</text>
+
+  <!-- test badge -->
+  <rect x="888" y="278" width="148" height="68" rx="6" fill="#1a0845" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="962" y="299" text-anchor="middle" font-size="11" font-weight="600" fill="#e9d5ff">41 Pytest Tests</text>
+  <text x="962" y="314" text-anchor="middle" font-size="10" fill="#c4b5fd">Clipper·PSI·Metrics</text>
+  <text x="962" y="328" text-anchor="middle" font-size="10" fill="#c4b5fd">Config·RiskEngine·KS</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LAYER 3 — MODEL OPS  (green/teal)
+  ════════════════════════════════════════════════════════ -->
+  <rect x="10" y="382" width="1080" height="148" rx="8" fill="#042b1e" opacity="0.96"/>
+  <text x="18" y="398" font-size="10" font-weight="700" fill="#6ee7b7" letter-spacing="1.5">MODEL OPS — CHAMPION vs CHALLENGER</text>
+  <text x="16" y="460" font-size="9" font-weight="600" fill="#10b981" transform="rotate(-90,16,460)" text-anchor="middle">MODEL OPS</text>
+
+  <!-- Champion box -->
+  <rect x="28" y="406" width="200" height="108" rx="6" fill="#064e35" stroke="#10b981" stroke-width="1.5"/>
+  <text x="128" y="428" text-anchor="middle" font-size="13" font-weight="700" fill="#6ee7b7">CHAMPION</text>
+  <text x="128" y="446" text-anchor="middle" font-size="11" fill="#34d399">LightGBM F1=0.9741</text>
+  <text x="128" y="462" text-anchor="middle" font-size="11" fill="#34d399">ROC-AUC=0.9991</text>
+  <text x="128" y="478" text-anchor="middle" font-size="11" fill="#34d399">KS=0.9818</text>
+  <text x="128" y="494" text-anchor="middle" font-size="10" fill="#6ee7b7">latest_model.json</text>
+
+  <!-- VS -->
+  <text x="280" y="465" text-anchor="middle" font-size="22" font-weight="700" fill="#6ee7b7">VS</text>
+
+  <!-- Challenger box -->
+  <rect x="308" y="406" width="200" height="108" rx="6" fill="#042b1e" stroke="#6ee7b7" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="408" y="428" text-anchor="middle" font-size="13" font-weight="700" fill="#a7f3d0">CHALLENGER</text>
+  <text x="408" y="448" text-anchor="middle" font-size="11" fill="#6ee7b7">New training run</text>
+  <text x="408" y="466" text-anchor="middle" font-size="11" fill="#6ee7b7">Must beat 3 gates</text>
+  <text x="408" y="484" text-anchor="middle" font-size="11" fill="#6ee7b7">challenger_log.json</text>
+
+  <!-- Gate 1 -->
+  <rect x="534" y="406" width="148" height="46" rx="6" fill="#065f46" stroke="#10b981" stroke-width="0.8"/>
+  <text x="608" y="424" text-anchor="middle" font-size="11" font-weight="600" fill="#a7f3d0">Gate 1: F1</text>
+  <text x="608" y="442" text-anchor="middle" font-size="10" fill="#6ee7b7">improvement ≥ 0.005</text>
+
+  <!-- Gate 2 -->
+  <rect x="534" y="460" width="148" height="46" rx="6" fill="#065f46" stroke="#10b981" stroke-width="0.8"/>
+  <text x="608" y="478" text-anchor="middle" font-size="11" font-weight="600" fill="#a7f3d0">Gate 2: ROC-AUC</text>
+  <text x="608" y="496" text-anchor="middle" font-size="10" fill="#6ee7b7">≥ 0.95</text>
+
+  <!-- Gate 3 -->
+  <rect x="700" y="406" width="148" height="46" rx="6" fill="#065f46" stroke="#10b981" stroke-width="0.8"/>
+  <text x="774" y="424" text-anchor="middle" font-size="11" font-weight="600" fill="#a7f3d0">Gate 3: Gen Gap</text>
+  <text x="774" y="442" text-anchor="middle" font-size="10" fill="#6ee7b7">≤ 10%</text>
+
+  <!-- PROMOTED badge -->
+  <rect x="700" y="460" width="148" height="46" rx="6" fill="#047857" stroke="#34d399" stroke-width="1.2"/>
+  <text x="774" y="478" text-anchor="middle" font-size="11" font-weight="700" fill="#ecfdf5">PROMOTED</text>
+  <text x="774" y="494" text-anchor="middle" font-size="10" fill="#a7f3d0">challenger_log.json</text>
+
+  <!-- NEW badge -->
+  <rect x="866" y="406" width="200" height="108" rx="6" fill="#064e35" stroke="#34d399" stroke-width="0.8"/>
+  <text x="966" y="428" text-anchor="middle" font-size="11" font-weight="700" fill="#6ee7b7">NEW</text>
+  <text x="966" y="446" text-anchor="middle" font-size="10" fill="#a7f3d0">model_card_path stored</text>
+  <text x="966" y="462" text-anchor="middle" font-size="10" fill="#a7f3d0">in latest_model.json</text>
+  <text x="966" y="478" text-anchor="middle" font-size="10" fill="#a7f3d0">No string parsing</text>
+  <text x="966" y="494" text-anchor="middle" font-size="10" fill="#a7f3d0">Full history log</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LAYER 4 — SERVING LAYER  (amber/orange)
+  ════════════════════════════════════════════════════════ -->
+  <rect x="10" y="548" width="1080" height="128" rx="8" fill="#2d1500" opacity="0.96"/>
+  <text x="18" y="564" font-size="10" font-weight="700" fill="#fbbf24" letter-spacing="1.5">SERVING LAYER</text>
+  <text x="16" y="616" font-size="9" font-weight="600" fill="#d97706" transform="rotate(-90,16,616)" text-anchor="middle">SERVING</text>
+
+  <!-- Model Loader -->
+  <rect x="28" y="572" width="165" height="88" rx="6" fill="#451a00" stroke="#f59e0b" stroke-width="0.8"/>
+  <text x="110" y="594" text-anchor="middle" font-size="11" font-weight="600" fill="#fde68a">Model Loader</text>
+  <text x="110" y="610" text-anchor="middle" font-size="10" fill="#fbbf24">load_latest_model()</text>
+  <text x="110" y="625" text-anchor="middle" font-size="10" fill="#fbbf24">threshold=0.5714</text>
+  <text x="110" y="640" text-anchor="middle" font-size="10" fill="#fbbf24">joblib.load()</text>
+
+  <!-- Prediction Service -->
+  <rect x="208" y="572" width="165" height="88" rx="6" fill="#451a00" stroke="#f59e0b" stroke-width="0.8"/>
+  <text x="290" y="594" text-anchor="middle" font-size="11" font-weight="600" fill="#fde68a">Prediction Service</text>
+  <text x="290" y="610" text-anchor="middle" font-size="10" fill="#fbbf24">feature engineering</text>
+  <text x="290" y="625" text-anchor="middle" font-size="10" fill="#fbbf24">predict_proba()</text>
+  <text x="290" y="640" text-anchor="middle" font-size="10" fill="#fbbf24">score_applicant()</text>
+
+  <!-- Risk Engine -->
+  <rect x="388" y="572" width="165" height="88" rx="6" fill="#451a00" stroke="#f59e0b" stroke-width="0.8"/>
+  <text x="470" y="594" text-anchor="middle" font-size="11" font-weight="600" fill="#fde68a">Risk Engine</text>
+  <text x="470" y="610" text-anchor="middle" font-size="10" fill="#fbbf24">mortgage ratio &gt; 10 → DECLINE</text>
+  <text x="470" y="625" text-anchor="middle" font-size="10" fill="#fbbf24">income &lt; 20K → REVIEW</text>
+  <text x="470" y="640" text-anchor="middle" font-size="10" fill="#fbbf24">family ≥ 5 → REVIEW</text>
+
+  <!-- FastAPI -->
+  <rect x="568" y="572" width="165" height="88" rx="6" fill="#451a00" stroke="#f59e0b" stroke-width="0.8"/>
+  <text x="650" y="594" text-anchor="middle" font-size="11" font-weight="600" fill="#fde68a">FastAPI</text>
+  <text x="650" y="610" text-anchor="middle" font-size="10" fill="#fbbf24">POST /predict</text>
+  <text x="650" y="625" text-anchor="middle" font-size="10" fill="#fbbf24">GET /health · /model_info</text>
+  <text x="650" y="640" text-anchor="middle" font-size="10" fill="#fbbf24">Render (deployed)</text>
+
+  <!-- Simulator -->
+  <rect x="748" y="572" width="165" height="88" rx="6" fill="#451a00" stroke="#f59e0b" stroke-width="0.8"/>
+  <text x="830" y="594" text-anchor="middle" font-size="11" font-weight="600" fill="#fde68a">Simulator</text>
+  <text x="830" y="610" text-anchor="middle" font-size="10" fill="#fbbf24">3 scenarios</text>
+  <text x="830" y="625" text-anchor="middle" font-size="10" fill="#fbbf24">random/risky/safe</text>
+  <text x="830" y="640" text-anchor="middle" font-size="10" fill="#fbbf24">500ms delay</text>
+
+  <!-- Response -->
+  <rect x="928" y="572" width="148" height="88" rx="6" fill="#3d1500" stroke="#fbbf24" stroke-width="1"/>
+  <text x="1002" y="594" text-anchor="middle" font-size="11" font-weight="600" fill="#fde68a">Response</text>
+  <text x="1002" y="610" text-anchor="middle" font-size="10" fill="#fbbf24">risk_probability</text>
+  <text x="1002" y="625" text-anchor="middle" font-size="10" fill="#fbbf24">APPROVE / REVIEW</text>
+  <text x="1002" y="640" text-anchor="middle" font-size="10" fill="#fbbf24">DECLINE + rule</text>
+
+  <!-- serving arrows -->
+  <line x1="193" y1="616" x2="206" y2="616" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#arr3)"/>
+  <line x1="373" y1="616" x2="386" y2="616" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#arr3)"/>
+  <line x1="553" y1="616" x2="566" y2="616" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#arr3)"/>
+  <line x1="733" y1="616" x2="746" y2="616" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#arr3)"/>
+  <line x1="913" y1="616" x2="926" y2="616" stroke="#f59e0b" stroke-width="1.2" marker-end="url(#arr3)"/>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LAYER 5 — MONITORING  (red/pink)
+  ════════════════════════════════════════════════════════ -->
+  <rect x="10" y="694" width="1080" height="162" rx="8" fill="#2d0a0a" opacity="0.96"/>
+  <text x="18" y="710" font-size="10" font-weight="700" fill="#fca5a5" letter-spacing="1.5">MONITORING LAYER — STREAMLIT DASHBOARD</text>
+  <text x="16" y="780" font-size="9" font-weight="600" fill="#ef4444" transform="rotate(-90,16,780)" text-anchor="middle">MONITORING</text>
+
+  <!-- Real-Time Alerts -->
+  <rect x="28" y="718" width="165" height="100" rx="6" fill="#5a0a0a" stroke="#ef4444" stroke-width="0.8"/>
+  <text x="110" y="738" text-anchor="middle" font-size="11" font-weight="600" fill="#fecaca">Real-Time Alerts</text>
+  <text x="110" y="754" text-anchor="middle" font-size="10" fill="#fca5a5">Risk score mean &gt; 0.35</text>
+  <text x="110" y="769" text-anchor="middle" font-size="10" fill="#fca5a5">Decline rate &gt; 25%</text>
+  <text x="110" y="784" text-anchor="middle" font-size="10" fill="#fca5a5">PSI critical drift</text>
+  <text x="110" y="800" text-anchor="middle" font-size="10" fill="#fca5a5">Review queue &gt; 20%</text>
+
+  <!-- Champion History -->
+  <rect x="210" y="718" width="165" height="100" rx="6" fill="#5a0a0a" stroke="#ef4444" stroke-width="0.8"/>
+  <text x="292" y="738" text-anchor="middle" font-size="11" font-weight="600" fill="#fecaca">Champion History</text>
+  <text x="292" y="754" text-anchor="middle" font-size="10" fill="#fca5a5">Latest challenger</text>
+  <text x="292" y="769" text-anchor="middle" font-size="10" fill="#fca5a5">3-gate status visual</text>
+  <text x="292" y="784" text-anchor="middle" font-size="10" fill="#fca5a5">Full history table</text>
+  <text x="292" y="800" text-anchor="middle" font-size="9" fill="#f87171">F1 · ROC-AUC · Gap gates</text>
+
+  <!-- KPI Metrics -->
+  <rect x="392" y="718" width="165" height="100" rx="6" fill="#5a0a0a" stroke="#ef4444" stroke-width="0.8"/>
+  <text x="474" y="738" text-anchor="middle" font-size="11" font-weight="600" fill="#fecaca">KPI Metrics</text>
+  <text x="474" y="754" text-anchor="middle" font-size="10" fill="#fca5a5">Loan approval rate</text>
+  <text x="474" y="769" text-anchor="middle" font-size="10" fill="#fca5a5">Score distribution</text>
+  <text x="474" y="784" text-anchor="middle" font-size="10" fill="#fca5a5">Decision breakdown</text>
+  <text x="474" y="800" text-anchor="middle" font-size="10" fill="#fca5a5">Approve/Review/Decline</text>
+
+  <!-- PSI Drift -->
+  <rect x="574" y="718" width="165" height="100" rx="6" fill="#5a0a0a" stroke="#ef4444" stroke-width="0.8"/>
+  <text x="656" y="738" text-anchor="middle" font-size="11" font-weight="600" fill="#fecaca">PSI Drift Report</text>
+  <text x="656" y="754" text-anchor="middle" font-size="10" fill="#fca5a5">Per-feature PSI</text>
+  <text x="656" y="769" text-anchor="middle" font-size="10" fill="#fca5a5">Bar chart visual</text>
+  <text x="656" y="784" text-anchor="middle" font-size="10" fill="#fca5a5">🟢 OK / 🟡 MOD</text>
+  <text x="656" y="800" text-anchor="middle" font-size="9" fill="#f87171">🔴 CRITICAL · NEW</text>
+
+  <!-- Recent Predictions -->
+  <rect x="756" y="718" width="165" height="100" rx="6" fill="#5a0a0a" stroke="#ef4444" stroke-width="0.8"/>
+  <text x="838" y="738" text-anchor="middle" font-size="11" font-weight="600" fill="#fecaca">Recent Predictions</text>
+  <text x="838" y="754" text-anchor="middle" font-size="10" fill="#fca5a5">Last 20 applicants</text>
+  <text x="838" y="769" text-anchor="middle" font-size="10" fill="#fca5a5">Live prediction log</text>
+  <text x="838" y="784" text-anchor="middle" font-size="10" fill="#fca5a5">Rule triggered</text>
+  <text x="838" y="800" text-anchor="middle" font-size="10" fill="#fca5a5">API logs CSV</text>
+
+  <!-- Deployment -->
+  <rect x="938" y="718" width="138" height="46" rx="6" fill="#450a0a" stroke="#dc2626" stroke-width="0.8"/>
+  <text x="1007" y="736" text-anchor="middle" font-size="11" font-weight="600" fill="#fecaca">Render</text>
+  <text x="1007" y="752" text-anchor="middle" font-size="10" fill="#fca5a5">FastAPI · Auto-deploy</text>
+
+  <rect x="938" y="772" width="138" height="46" rx="6" fill="#450a0a" stroke="#dc2626" stroke-width="0.8"/>
+  <text x="1007" y="790" text-anchor="middle" font-size="11" font-weight="600" fill="#fecaca">Streamlit</text>
+  <text x="1007" y="806" text-anchor="middle" font-size="10" fill="#fca5a5">Dashboard · Cloud deploy</text>
+
+  <!-- ── ARROW MARKERS ── -->
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#4a7fd4" stroke-width="1.5"/>
     </marker>
-  <mask id="imagine-text-gaps-wlf5cn" maskUnits="userSpaceOnUse"><rect x="0" y="0" width="680" height="1194.69" fill="white"/><rect x="246.33181762695312" y="30.49993133544922" width="187.8262939453125" height="21.000139236450195" fill="black" rx="2"/><rect x="244.94044494628906" y="49.30945587158203" width="189.64718627929688" height="19.381078720092773" fill="black" rx="2"/><rect x="286.2391357421875" y="110.49992370605469" width="107.52164459228516" height="21.000139236450195" fill="black" rx="2"/><rect x="222.59613037109375" y="129.3094482421875" width="234.48086547851562" height="19.381078720092773" fill="black" rx="2"/><rect x="269.0619201660156" y="190.4999237060547" width="142.65884399414062" height="21.809669494628906" fill="black" rx="2"/><rect x="230.6155548095703" y="209.30946350097656" width="219.076416015625" height="19.381078720092773" fill="black" rx="2"/><rect x="274.425048828125" y="270.49993896484375" width="131.14981842041016" height="21.809669494628906" fill="black" rx="2"/><rect x="232.46229553222656" y="289.3094482421875" width="215.19561767578125" height="19.381078720092773" fill="black" rx="2"/><rect x="283.8485107421875" y="345.3094482421875" width="113.1297378540039" height="19.381078720092773" fill="black" rx="2"/><rect x="126.4815673828125" y="380.4999084472656" width="146.9464111328125" height="21.000139236450195" fill="black" rx="2"/><rect x="106.31287384033203" y="399.3094482421875" width="188.2083740234375" height="19.381078720092773" fill="black" rx="2"/><rect x="398.53802490234375" y="380.4999084472656" width="163.63983154296875" height="21.000139236450195" fill="black" rx="2"/><rect x="404.19207763671875" y="399.3094482421875" width="152.73805236816406" height="19.381078720092773" fill="black" rx="2"/><rect x="253.4974365234375" y="466.49993896484375" width="172.98753356933594" height="21.809669494628906" fill="black" rx="2"/><rect x="236.2126922607422" y="485.3094482421875" width="208.01524353027344" height="19.381078720092773" fill="black" rx="2"/><rect x="277.9604187011719" y="546.4998779296875" width="124.0790786743164" height="21.000139236450195" fill="black" rx="2"/><rect x="225.8975067138672" y="565.3094482421875" width="227.42648315429688" height="19.381078720092773" fill="black" rx="2"/><rect x="258.8921813964844" y="626.4999389648438" width="163.0030975341797" height="21.809669494628906" fill="black" rx="2"/><rect x="230.81793212890625" y="645.3094482421875" width="217.55455017089844" height="19.381078720092773" fill="black" rx="2"/><rect x="279.03558349609375" y="712.4998779296875" width="121.92875671386719" height="21.000139236450195" fill="black" rx="2"/><rect x="244.02972412109375" y="731.3094482421875" width="192.5864715576172" height="19.381078720092773" fill="black" rx="2"/><rect x="262.7058410644531" y="798.4998779296875" width="154.5882568359375" height="21.000139236450195" fill="black" rx="2"/><rect x="223.7914581298828" y="817.3094482421875" width="232.7535400390625" height="19.381078720092773" fill="black" rx="2"/><rect x="256.5205078125" y="884.4998779296875" width="167.6779022216797" height="21.809669494628906" fill="black" rx="2"/><rect x="230.59657287597656" y="903.3093872070312" width="218.65020751953125" height="19.381078720092773" fill="black" rx="2"/><rect x="287.3775329589844" y="970.4999389648438" width="106.01526641845703" height="21.809669494628906" fill="black" rx="2"/><rect x="233.43624877929688" y="989.3094482421875" width="213.38914489746094" height="19.381078720092773" fill="black" rx="2"/><rect x="287.78863525390625" y="1037.85693359375" width="103.94502258300781" height="19.381078720092773" fill="black" rx="2"/><rect x="101.56965637207031" y="1081.4998779296875" width="76.77845001220703" height="21.000139236450195" fill="black" rx="2"/><rect x="77.41655731201172" y="1097.3094482421875" width="125.60626983642578" height="19.381078720092773" fill="black" rx="2"/><rect x="307.8814697265625" y="1081.4998779296875" width="64.44987487792969" height="21.000139236450195" fill="black" rx="2"/><rect x="278.9470520019531" y="1097.3094482421875" width="122.43301391601562" height="19.381078720092773" fill="black" rx="2"/><rect x="505.048095703125" y="1081.4998779296875" width="70.62911605834961" height="21.000139236450195" fill="black" rx="2"/><rect x="482.1851806640625" y="1097.3094482421875" width="115.96050262451172" height="19.381078720092773" fill="black" rx="2"/><rect x="144.49993896484375" y="1151.5" width="111.71196746826172" height="21.000139236450195" fill="black" rx="2"/><rect x="107.44495391845703" y="1167.3094482421875" width="185.1307830810547" height="19.381078720092773" fill="black" rx="2"/><rect x="407.3290100097656" y="1151.5" width="144.67210388183594" height="21.000139236450195" fill="black" rx="2"/><rect x="381.29754638671875" y="1167.3094482421875" width="197.42794799804688" height="19.381078720092773" fill="black" rx="2"/></mask></defs>
+    <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#8b5cf6" stroke-width="1.5"/>
+    </marker>
+    <marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+    </marker>
+  </defs>
 
-  <!-- ── COLUMN CENTER = 340 ── -->
+  <!-- layer connector arrows -->
+  <line x1="550" y1="150" x2="550" y2="166" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="550" y1="364" x2="550" y2="380" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="550" y1="530" x2="550" y2="546" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="550" y1="676" x2="550" y2="692" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <!-- 1. Dataset -->
-  <g onclick="sendPrompt('Tell me about the Bank Personal Loan dataset used in Credit Risk project')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="210" y="20" width="260" height="50" rx="8" stroke-width="0.5" style="fill:rgb(230, 241, 251);stroke:rgb(24, 95, 165);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="340" y="41" text-anchor="middle" dominant-baseline="central" style="fill:rgb(12, 68, 124);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Bank personal loan dataset</text>
-    <text x="340" y="59" text-anchor="middle" dominant-baseline="central" style="fill:rgb(24, 95, 165);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">5,000 applicants · 9.6% loan rate</text>
-  </g>
-  <line x1="340" y1="70" x2="340" y2="100" marker-end="url(#arrow)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- 2. Data Validation -->
-  <g onclick="sendPrompt('What does data validation do in the credit risk pipeline?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="210" y="100" width="260" height="50" rx="8" stroke-width="0.5" style="fill:rgb(225, 245, 238);stroke:rgb(15, 110, 86);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="340" y="121" text-anchor="middle" dominant-baseline="central" style="fill:rgb(8, 80, 65);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Data validation</text>
-    <text x="340" y="139" text-anchor="middle" dominant-baseline="central" style="fill:rgb(15, 110, 86);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Schema · nulls · duplicates · target check</text>
-  </g>
-  <line x1="340" y1="150" x2="340" y2="180" marker-end="url(#arrow)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- 3. Feature Engineering -->
-  <g onclick="sendPrompt('What feature engineering is done in the credit risk project?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="210" y="180" width="260" height="50" rx="8" stroke-width="0.5" style="fill:rgb(238, 237, 254);stroke:rgb(83, 74, 183);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="340" y="201" text-anchor="middle" dominant-baseline="central" style="fill:rgb(60, 52, 137);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Feature engineering</text>
-    <text x="340" y="219" text-anchor="middle" dominant-baseline="central" style="fill:rgb(83, 74, 183);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">12 features · ratios · interactions · bins</text>
-  </g>
-  <line x1="340" y1="230" x2="340" y2="260" marker-end="url(#arrow)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- 4. Leakage Detection -->
-  <g onclick="sendPrompt('How does leakage detection work in the credit risk pipeline?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="210" y="260" width="260" height="50" rx="8" stroke-width="0.5" style="fill:rgb(250, 238, 218);stroke:rgb(133, 79, 11);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="340" y="281" text-anchor="middle" dominant-baseline="central" style="fill:rgb(99, 56, 6);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Leakage detection</text>
-    <text x="340" y="299" text-anchor="middle" dominant-baseline="central" style="fill:rgb(133, 79, 11);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Correlation check · exact match scan</text>
-  </g>
-  <line x1="340" y1="310" x2="340" y2="340" marker-end="url(#arrow)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- 5. Preprocessing — split into two boxes side by side -->
-  <!-- label above -->
-  <text x="340" y="355" text-anchor="middle" dominant-baseline="central" style="fill:rgb(61, 61, 58);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Dual preprocessor</text>
-  <line x1="340" y1="340" x2="230" y2="370" marker-end="url(#arrow)" mask="url(#imagine-text-gaps-wlf5cn)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <line x1="340" y1="340" x2="450" y2="370" marker-end="url(#arrow)" mask="url(#imagine-text-gaps-wlf5cn)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <g onclick="sendPrompt('What is the scaled preprocessor used for in credit risk?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="100" y="370" width="200" height="56" rx="8" stroke-width="0.5" style="fill:rgb(225, 245, 238);stroke:rgb(15, 110, 86);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="200" y="391" text-anchor="middle" dominant-baseline="central" style="fill:rgb(8, 80, 65);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Scaled preprocessor</text>
-    <text x="200" y="409" text-anchor="middle" dominant-baseline="central" style="fill:rgb(15, 110, 86);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Clipper · Power · StandardScaler</text>
-  </g>
-
-  <g onclick="sendPrompt('What is the unscaled preprocessor used for in credit risk?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="380" y="370" width="200" height="56" rx="8" stroke-width="0.5" style="fill:rgb(238, 237, 254);stroke:rgb(83, 74, 183);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="480" y="391" text-anchor="middle" dominant-baseline="central" style="fill:rgb(60, 52, 137);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Unscaled preprocessor</text>
-    <text x="480" y="409" text-anchor="middle" dominant-baseline="central" style="fill:rgb(83, 74, 183);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Clipper only · tree models</text>
-  </g>
-
-  <!-- merge back -->
-  <line x1="200" y1="426" x2="340" y2="456" marker-end="url(#arrow)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <line x1="480" y1="426" x2="340" y2="456" marker-end="url(#arrow)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- 6. SMOTENC -->
-  <g onclick="sendPrompt('Why is SMOTENC used in credit risk instead of regular SMOTE?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="210" y="456" width="260" height="50" rx="8" stroke-width="0.5" style="fill:rgb(250, 236, 231);stroke:rgb(153, 60, 29);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="340" y="477" text-anchor="middle" dominant-baseline="central" style="fill:rgb(113, 43, 19);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">SMOTENC oversampling</text>
-    <text x="340" y="495" text-anchor="middle" dominant-baseline="central" style="fill:rgb(153, 60, 29);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Mixed features · class imbalance fix</text>
-  </g>
-  <line x1="340" y1="506" x2="340" y2="536" marker-end="url(#arrow)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- 7. SelectKBest -->
-  <g onclick="sendPrompt('How does SelectKBest feature selection work in credit risk?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="210" y="536" width="260" height="50" rx="8" stroke-width="0.5" style="fill:rgb(230, 241, 251);stroke:rgb(24, 95, 165);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="340" y="557" text-anchor="middle" dominant-baseline="central" style="fill:rgb(12, 68, 124);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Feature selection</text>
-    <text x="340" y="575" text-anchor="middle" dominant-baseline="central" style="fill:rgb(24, 95, 165);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">SelectKBest · mutual information · k=10</text>
-  </g>
-  <line x1="340" y1="586" x2="340" y2="616" marker-end="url(#arrow)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- 8. Model Training + Tuning -->
-  <g onclick="sendPrompt('Which models are trained in the credit risk pipeline?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="210" y="616" width="260" height="56" rx="8" stroke-width="0.5" style="fill:rgb(225, 245, 238);stroke:rgb(15, 110, 86);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="340" y="637" text-anchor="middle" dominant-baseline="central" style="fill:rgb(8, 80, 65);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Model training + tuning</text>
-    <text x="340" y="655" text-anchor="middle" dominant-baseline="central" style="fill:rgb(15, 110, 86);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">13 models · RandomizedSearchCV · F1</text>
-  </g>
-  <line x1="340" y1="672" x2="340" y2="702" marker-end="url(#arrow)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- 9. Evaluation -->
-  <g onclick="sendPrompt('What evaluation metrics are used in credit risk model selection?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="210" y="702" width="260" height="56" rx="8" stroke-width="0.5" style="fill:rgb(238, 237, 254);stroke:rgb(83, 74, 183);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="340" y="723" text-anchor="middle" dominant-baseline="central" style="fill:rgb(60, 52, 137);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Model evaluation</text>
-    <text x="340" y="741" text-anchor="middle" dominant-baseline="central" style="fill:rgb(83, 74, 183);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">F1 · ROC-AUC · KS · Brier · CV gap</text>
-  </g>
-  <line x1="340" y1="758" x2="340" y2="788" marker-end="url(#arrow)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- 10. Calibration -->
-  <g onclick="sendPrompt('How does probability calibration work in credit risk?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="210" y="788" width="260" height="56" rx="8" stroke-width="0.5" style="fill:rgb(250, 238, 218);stroke:rgb(133, 79, 11);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="340" y="809" text-anchor="middle" dominant-baseline="central" style="fill:rgb(99, 56, 6);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Probability calibration</text>
-    <text x="340" y="827" text-anchor="middle" dominant-baseline="central" style="fill:rgb(133, 79, 11);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Holdout isotonic regression · Brier score</text>
-  </g>
-  <line x1="340" y1="844" x2="340" y2="874" marker-end="url(#arrow)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- 11. Champion vs Challenger -->
-  <g onclick="sendPrompt('How does the challenger model system work in credit risk?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="210" y="874" width="260" height="56" rx="8" stroke-width="0.5" style="fill:rgb(250, 236, 231);stroke:rgb(153, 60, 29);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="340" y="895" text-anchor="middle" dominant-baseline="central" style="fill:rgb(113, 43, 19);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Champion vs challenger</text>
-    <text x="340" y="913" text-anchor="middle" dominant-baseline="central" style="fill:rgb(153, 60, 29);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">3 gates · F1 · ROC-AUC · train-test gap</text>
-  </g>
-  <line x1="340" y1="930" x2="340" y2="960" marker-end="url(#arrow)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- 12. Model Registry -->
-  <g onclick="sendPrompt('What is saved in the model registry in credit risk?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="210" y="960" width="260" height="50" rx="8" stroke-width="0.5" style="fill:rgb(230, 241, 251);stroke:rgb(24, 95, 165);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="340" y="981" text-anchor="middle" dominant-baseline="central" style="fill:rgb(12, 68, 124);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Model registry</text>
-    <text x="340" y="999" text-anchor="middle" dominant-baseline="central" style="fill:rgb(24, 95, 165);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">latest_model.json · model card JSON</text>
-  </g>
-
-  <!-- split into 3 -->
-  <line x1="340" y1="1010" x2="340" y2="1040" marker-end="url(#arrow)" mask="url(#imagine-text-gaps-wlf5cn)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- ── 3-tier risk engine ── -->
-  <text x="340" y="1052" text-anchor="middle" style="fill:rgb(61, 61, 58);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">3-tier risk engine</text>
-
-  <line x1="340" y1="1040" x2="160" y2="1070" marker-end="url(#arrow)" mask="url(#imagine-text-gaps-wlf5cn)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <line x1="340" y1="1040" x2="340" y2="1070" marker-end="url(#arrow)" mask="url(#imagine-text-gaps-wlf5cn)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <line x1="340" y1="1040" x2="520" y2="1070" marker-end="url(#arrow)" mask="url(#imagine-text-gaps-wlf5cn)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <g onclick="sendPrompt('When does the risk engine return APPROVE?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="60" y="1070" width="160" height="44" rx="8" stroke-width="0.5" style="fill:rgb(225, 245, 238);stroke:rgb(15, 110, 86);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="140" y="1092" text-anchor="middle" dominant-baseline="central" style="fill:rgb(8, 80, 65);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">APPROVE</text>
-    <text x="140" y="1107" text-anchor="middle" dominant-baseline="central" style="fill:rgb(15, 110, 86);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Low risk · no rule flag</text>
-  </g>
-
-  <g onclick="sendPrompt('When does the risk engine return REVIEW?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="260" y="1070" width="160" height="44" rx="8" stroke-width="0.5" style="fill:rgb(250, 238, 218);stroke:rgb(133, 79, 11);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="340" y="1092" text-anchor="middle" dominant-baseline="central" style="fill:rgb(99, 56, 6);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">REVIEW</text>
-    <text x="340" y="1107" text-anchor="middle" dominant-baseline="central" style="fill:rgb(133, 79, 11);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Borderline · soft rule</text>
-  </g>
-
-  <g onclick="sendPrompt('When does the risk engine return DECLINE?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="460" y="1070" width="160" height="44" rx="8" stroke-width="0.5" style="fill:rgb(250, 236, 231);stroke:rgb(153, 60, 29);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="540" y="1092" text-anchor="middle" dominant-baseline="central" style="fill:rgb(113, 43, 19);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">DECLINE</text>
-    <text x="540" y="1107" text-anchor="middle" dominant-baseline="central" style="fill:rgb(153, 60, 29);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">High risk · hard rule</text>
-  </g>
-
-  <!-- merge to API + Dashboard -->
-  <line x1="140" y1="1114" x2="260" y2="1140" marker-end="url(#arrow)" mask="url(#imagine-text-gaps-wlf5cn)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <line x1="340" y1="1114" x2="340" y2="1140" marker-end="url(#arrow)" mask="url(#imagine-text-gaps-wlf5cn)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <line x1="540" y1="1114" x2="420" y2="1140" marker-end="url(#arrow)" mask="url(#imagine-text-gaps-wlf5cn)" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- FastAPI + Streamlit side by side -->
-  <g onclick="sendPrompt('What does the FastAPI endpoint return in the credit risk project?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="100" y="1140" width="200" height="44" rx="8" stroke-width="0.5" style="fill:rgb(241, 239, 232);stroke:rgb(95, 94, 90);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="200" y="1162" text-anchor="middle" dominant-baseline="central" style="fill:rgb(68, 68, 65);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">FastAPI service</text>
-    <text x="200" y="1177" text-anchor="middle" dominant-baseline="central" style="fill:rgb(95, 94, 90);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">/predict · risk band · rule trigger</text>
-  </g>
-
-  <g onclick="sendPrompt('What does the Streamlit monitoring dashboard show?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <rect x="380" y="1140" width="200" height="44" rx="8" stroke-width="0.5" style="fill:rgb(241, 239, 232);stroke:rgb(95, 94, 90);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="480" y="1162" text-anchor="middle" dominant-baseline="central" style="fill:rgb(68, 68, 65);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Streamlit dashboard</text>
-    <text x="480" y="1177" text-anchor="middle" dominant-baseline="central" style="fill:rgb(95, 94, 90);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Alerts · KPIs · PSI drift · challenger</text>
-  </g>
 </svg>
