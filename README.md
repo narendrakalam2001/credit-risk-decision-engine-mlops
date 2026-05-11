@@ -385,8 +385,23 @@ credit-risk-ml-system/
 │   └── sample_credit_data_balanced.csv
 │
 ├── docs/
-│   ├── screenshots/
-│   └── gifs/
+│   ├── architecture/
+│   │   └── system_architecture.svg    
+│   ├── gifs/
+│   │   └── system_demo.gif                 
+│   ├── reports/
+│   │   ├── training_model_summary.png                
+│   │   ├── challenger_evaluation.png        
+│   │   ├── model_analysis_metrics.png
+│   │   └── test_coverage.png                             
+│   └── screenshots/
+│       ├── dashboard_full_ui.png                         
+│       ├── score_decision_distribution.png 
+│       ├── risk_band_and_stats.png 
+│       ├── feature_drift.png                              
+│       ├── feature_psi_drift.png                     
+│       ├── predictions.png        
+│       └── api_prediction_response
 │
 ├── Dockerfile                 ← API Docker image
 ├── Dockerfile.dashboard       ← Dashboard Docker image
